@@ -10,9 +10,9 @@ const justify_class = `justify-${props.align}`
 
 <template>
     <div class="h-full flex" :class="justify_class">
-        <button >
+        <a href="#/katas">
             <img :src="image" class="h-full">
-        </button>
+        </a>
     </div>
 </template>
 
