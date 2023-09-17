@@ -1,33 +1,18 @@
 <script lang="ts" setup>
 const props = defineProps<{
     image_name: string
-    align: string
+    self_align: string
+    route: string
 }>()
 
 const image = new URL(`../../assets/images/${props.image_name}.png`, import.meta.url).toString()
-const justify_class = `justify-${props.align}`
+const justify_class = `justify-${props.self_align}`
 </script>
 
 <template>
-    <div class="h-full flex" :class="justify_class">
-        <a href="#/katas">
-            <img :src="image" class="h-full">
-        </a>
-    </div>
+    <RouterLink :to="{name: props.route}" class="flex w-full">
+            <img :src="image" class="w-full">
+    </RouterLink>
 </template>
 
-<style scoped>
-button {
-    --btn-size: 15vmax;
-
-    width: var(--btn-size);
-    height: var(--btn-size);
-    
-    background-color: white;
-    border: solid black;
-}
-
-.justify-end {
-    justify-content: flex-end;
-}
-</style>
+<style scoped></style>

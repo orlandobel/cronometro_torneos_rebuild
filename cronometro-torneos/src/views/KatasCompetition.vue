@@ -1,48 +1,94 @@
 <script lang="ts" setup>
-import { reactive, watch, ref } from 'vue';
+import { Ref, ref } from 'vue';
 import KatasCompetitor from '../components/Competitors/KatasCompetitor.vue'
+import { KataCompetitor } from '../Interfaces';
+import ExitButton from '../components/Buttons/ExitButton.vue';
 
-const competitors = ref('0')
 const base = ref(8)
+const num_competitors = ref(0)
+const competitors: Ref<KataCompetitor[]> = ref([])
+
+const updateCompetitors = () => {
+    const n = num_competitors.value
+    
+    if(n < competitors.value.length) {
+        do {
+            competitors.value.pop()
+        } while(competitors.value.length > n)
+    }
+
+    if(n > competitors.value.length) {
+        let id = competitors.value.length
+        do {
+            competitors.value.push({
+                id,
+                cal1:0,
+                cal2:0,
+                cal3:0,
+            })
+            id++
+        } while(competitors.value.length < n)
+    }
+}
+
+const get_winners = () => competitors.value.sort((a:KataCompetitor, b:KataCompetitor) => b.total! - a.total!)
+
+const clearFields = () => competitors.value.forEach(competitor => {
+    console.log('cleanin')
+    competitor.name = undefined
+    competitor.cal1 = 0
+    competitor.cal2 = 0
+    competitor.cal3 = 0
+    competitor.total = undefined
+});
+    
 </script>
 
 <template>
-    <div class="h-screen w-full parent">
-        <section id="configuration" class="border-neutral-500 border-b w-56 columns-2 g mb-11 py-3" style="padding-bottom: 2px;">
-            <fieldset>
-                <input type="text" name="num-competitors" id="num-competitors" v-model="competitors"
-                    class="num-competitors w-20" onfocus="this.value = ''" :onblur="'this.value =' + competitors">
+    <div class="h-screen parent mx-40">
+        <ExitButton />
+        <section id="configuration" class="w-96 columns-3 g mb-11 py-3" style="padding-bottom: 2px;">
+            <fieldset class="border-neutral-500 border-b">
+                <input type="text" name="num-competitors" id="num-competitors" v-model="num_competitors"
+                    class="num-competitors w-20" onfocus="this.value = ''" :onblur="'this.value =' + num_competitors" @change="updateCompetitors">
                 <legend>
                     <span># Competidores</span>
                 </legend>
                 <br/>
             </fieldset>
             
-            <fieldset>
-                <input type="radio" name="cal-base" id="base-8" v-model="base" value="8" class="cal-base"/>
+            <fieldset class="border-neutral-500 border-b mx-3">
+                <input type="radio" name="cal-base" id="base-8" v-model="base" :value="8" class="cal-base"/>
                 <label for="base-8" class="string-calif" >8</label>
 
-                <input type="radio" name="cal-base" id="base-9" v-model="base" value="9" class="cal-base"/>
+                <input type="radio" name="cal-base" id="base-9" v-model="base" :value="9" class="cal-base"/>
                 <label for="base-9" class="string-calif" >9</label>
                 <legend>
                     <span>Cal. base</span>
                 </legend>
             </fieldset>
-            <!--input type="text" name="num-competitors" id="num-competitors" placeholder="Número de competidores"
-                class="num-competitors border-neutral-500 border-b"-->
+            <fieldset>
+                <button class="border-neutral-500 border-b px-2" @click="clearFields">Reiniciar</button>
+            </fieldset>
         </section>
 
         <section class="copmetitors-section">
-            <KatasCompetitor :id="'competitor-'+index" :base="base" :competitor="index" v-for="index in parseInt(competitors)" :key="index" />
+            <KatasCompetitor :base="base" :competitor="competitor" v-for="(competitor, index) in competitors" :key="index" :id="index" />
         </section>
 
         <section class="grid justify-items-end self-end">
-            <button class="rounded-lg text-white text-2xl bg-green-600 px-3 py-1">Calificar</button>
+            <button class="rounded-lg text-white text-2xl bg-green-600 px-3 py-1" @click="get_winners">Calificar</button>
         </section>
     </div>
 </template>
 
 <style scoped>
+#btn-return {
+    position: absolute;
+    top: 25px;
+    left: -6rem;
+}
+
 .num-competitors {
     background-color: transparent;
     text-align: center;
@@ -87,14 +133,14 @@ fieldset {
     position: relative;
     margin-top: 0px;
     
-    padding: 5px;
+    padding: 5px 8px;
     box-sizing: border-box;
 }
 
 legend {
     position: absolute;
     bottom: 0px;
-    left: 5px;
+    left: 15px;
     transform: translate(0%, 75%);
     margin: 0px;
     font-size: 8pt;
