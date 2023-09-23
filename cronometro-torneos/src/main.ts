@@ -6,9 +6,9 @@ import router from "./routes"
 
 //icons
 import { OhVueIcon, addIcons } from "oh-vue-icons"
-import { IoArrowBackCircleSharp } from "oh-vue-icons/icons";
+import { IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid } from "oh-vue-icons/icons";
 
-addIcons(IoArrowBackCircleSharp)
+addIcons(IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid)
 
 createApp(App)
     .component('v-icon', OhVueIcon)
