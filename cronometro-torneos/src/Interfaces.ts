@@ -6,3 +6,9 @@ export interface KataCompetitor {
     cal3: Number
     total?: number
 }
+
+export interface FigthCompetitor {
+    color: String,
+    banns: number,
+    points?: number,
+}

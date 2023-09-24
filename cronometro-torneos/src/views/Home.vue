@@ -9,7 +9,7 @@ import CompetitionButton from "../components/Buttons/CompetitionButton.vue";
     </div>
     <div class="columns-3 gap-16 mx-32">
       <CompetitionButton route="kata-comp" image_name="forma_btn" self_align="end" />
-      <CompetitionButton route="kata-comp" image_name="puntos_btn" self_align="center" />
+      <CompetitionButton route="point-figth" image_name="puntos_btn" self_align="center" />
       <CompetitionButton route="kata-comp" image_name="continua_btn" self_align="start" />
     </div>
   </div>
