@@ -1,22 +1,32 @@
 <script lang="ts" setup>
-import { watchEffect, onMounted, computed } from "vue"
-import { useTimer } from 'vue-timer-hook'
+import { Ref, ref } from 'vue'
 
-const time = new Date()
-time.setSeconds(time.getSeconds() + 60)
-const timer = useTimer(time, false)
+const timer: Ref<any> = ref(null)
 
-const seconds = computed(() => timer.seconds.value.toString().padStart(2, "0"))
-const minutes = computed(() => timer.minutes.value.toString().padStart(2, "0"))
+const time = ref(60000)
+const remain = ref(6000)
+
+const start = () => timer.value?.start()
+const pause = () => timer.value?.abort()
+
+const listenTimer = (event: any) => {
+    const ms = event.seconds * 1000
+    remain.value = ms
+}
+
+const onPause = () => time.value = remain.value
 
 defineExpose({
-    time,
-    timer
+    start,
+    pause
 })
 </script>
 
 <template>
-    <span> {{ minutes }}:{{ seconds }} </span>
+    <vue-countdown :time="time" v-slot="{ minutes, seconds}" :auto-start="false" ref="timer"
+        @progress="listenTimer" @abort="onPause">
+        {{ minutes.toString().padStart(2, "0") }}:{{ seconds.toString().padStart(2, "0") }}
+    </vue-countdown>
 </template>
 
 <style lang="css" scoped>

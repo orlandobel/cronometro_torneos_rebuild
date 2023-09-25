@@ -4,6 +4,8 @@ import "./index.css"
 import App from "./App.vue"
 import router from "./routes"
 
+import VueCountdown from '@chenfengyuan/vue-countdown'
+
 //icons
 import { OhVueIcon, addIcons } from "oh-vue-icons"
 import { IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid } from "oh-vue-icons/icons";
@@ -12,5 +14,6 @@ addIcons(IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiP
 
 createApp(App)
     .component('v-icon', OhVueIcon)
+    .component(VueCountdown.name, VueCountdown)
     .use(router)
     .mount("#app")

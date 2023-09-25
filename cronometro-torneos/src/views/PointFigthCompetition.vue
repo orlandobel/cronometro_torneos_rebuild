@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref, onMounted } from 'vue';
+import { Ref, ref } from 'vue';
 import { FigthCompetitor as FC } from '../Interfaces';
 import FigthCompetitor from '../components/Competitors/FigthCompetitor.vue'
 import FigthButtonsPannel from '../components/Buttons/FigthButtonsPannel.vue'
@@ -21,10 +21,6 @@ const competitors: Ref<FC[]> = ref([
 
 const timer = ref<InstanceType<typeof Timer> | null>(null)
 
-onMounted(() => {
-    console.log(timer.value?.timer.minutes)
-})
-
 </script>
 
 <template>
@@ -36,11 +32,15 @@ onMounted(() => {
                 mt-2 bg-gray-500 border-8
                 border-b-neutral-800 border-t-stone-500
                 border-l-neutral-600 border-r-neutral-600">
-                <Timer ref="timer" id="timer"/>
+                <Timer ref="timer" id="timer" />
+                <!--vue-countdown :time="time" v-slot="{ minutes, seconds}" :auto-start="false" ref="timer"
+                    @progress="listenTimer" @abort="onPause">
+                    {{ minutes.toString().padStart(2, "0") }}:{{ seconds.toString().padStart(2, "0") }}
+                </vue-countdown-->
             </div>
         </section>
         <section id="control-panel" class="w-screen flex h-1/6">
-            <TimerControllPannel :time="timer?.time" :timer="timer?.timer"/>
+            <TimerControllPannel  :timer="timer"/>
             
             <FigthButtonsPannel id="panel_control" v-for="(competitor, index) in competitors" :key="index" :competitor="competitor" />
         </section>
