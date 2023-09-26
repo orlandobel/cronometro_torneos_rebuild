@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import { ref, Ref } from 'vue';
-import { UseTimer } from 'vue-timer-hook'
+import { ref, Ref } from 'vue'
 
 const runingTimer: Ref<Boolean> = ref(false)
 const hasStarted = ref(false)
 const animation: Ref<string> = ref('')
 const icon = ref('bi-play')
-
-const props = defineProps<{
-    timer: any
-}>()
 
 const changeTimer = () => {
     animation.value = 'flash'
@@ -29,13 +24,21 @@ const changeTimer = () => {
 }
 
 const restart = () => {
-    const time = new Date()
-    time.setSeconds(time.getSeconds() + 60)
-    props.timer?.pause()
-    props.timer?.restart(time)
-
+    props.timer.restart()
+    emit('restart')
 }
 
+const props = defineProps<{
+    timer: any
+}>()
+
+defineExpose({
+    changeTimer
+})
+
+const emit = defineEmits<{
+    'restart': []
+}>()
 </script>
 
 <template>

@@ -9,13 +9,20 @@ const props = defineProps<{
 const updatePoints = (points: number) => {
     if(props.competitor.points! === 0 && points === -1) return
     props.competitor.points! += points
+    emit('updatePoints')
 }
 
 const updateBanns = (bann: number) => {
     if(props.competitor.banns === 0 && bann === -1) return
     if(props.competitor.banns === 3 && bann === 1) return
     props.competitor.banns += bann
+    if(props.competitor.banns === 3) emit('endByBanns')
 }
+
+const emit = defineEmits<{
+    'endByBanns': []
+    'updatePoints': []
+}>()
 </script>
 
 <template>
