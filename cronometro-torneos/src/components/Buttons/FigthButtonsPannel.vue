@@ -27,7 +27,7 @@ const emit = defineEmits<{
 
 <template>
     <div class="h-full flex justify-center w-1/2">
-        <div class="button-group grid content-top gap-y-0 justify-center h-full pt-8 w-1/2" >
+        <div class="button-group grid content-top gap-y-0 justify-center h-full pt-8 w-1/2" v-if="competitor.points !== undefined">
             <label class="h-fit text-center m-0">Puntuacion</label>
             <div class="flex justify-center gap-4 h-full m-0">
                 <button class="w-16 h-16 border border-neutral-200"

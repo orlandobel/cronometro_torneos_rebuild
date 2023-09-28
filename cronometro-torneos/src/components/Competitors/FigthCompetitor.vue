@@ -48,10 +48,10 @@ footer {
 
 
 .border-red {
-    border-bottom: 1px solid rgb(239 68 68);
+    border: 1px solid rgb(239 68 68);
 }
 
 .border-black {
-    border-bottom: 1px solid black;
+    border: 3px solid black;
 }
 </style>

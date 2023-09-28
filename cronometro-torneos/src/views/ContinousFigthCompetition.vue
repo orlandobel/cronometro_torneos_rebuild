@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
-import { FigthCompetitor as FC } from '../Interfaces';
+import { ref, Ref } from 'vue'
+import { FigthCompetitor as FC} from '../Interfaces'
 import FigthCompetitor from '../components/Competitors/FigthCompetitor.vue'
 import FigthButtonsPannel from '../components/Buttons/FigthButtonsPannel.vue'
 import TimerControllPannel from '../components/Buttons/TimerControllPannel.vue';
@@ -11,12 +11,10 @@ const competitors: Ref<FC[]> = ref([
     {
         color: 'red',
         banns: 0,
-        points: 0,
     },
     {
         color: 'black',
         banns: 0,
-        points: 0,
     }
 ])
 
@@ -24,32 +22,17 @@ const timer = ref<InstanceType<typeof Timer> | null>(null)
 const timer_panel = ref<any>(null)
 
 const onRestart = () => {
-    competitors.value[0].points = 0
-    competitors.value[1].points = 0
-
     competitors.value[0].banns = 0
     competitors.value[1].banns = 0
 }
 
 const onTimerEnd = () => timer_panel.value?.changeTimer()
 
-const onUpdatePoints = () => {
-    const points1 = competitors.value[0].points!
-    const points2 = competitors.value[1].points!
-
-    if(Math.abs(points1 - points2) === 5) {
-        timer_panel.value?.changeTimer()
-        invoke('play_bell')
-        invoke('stop_sound')
-    }
-}
-
 const onEndByBanns = () => {
     timer_panel.value?.changeTimer()
     invoke('play_bell')
     invoke('stop_sound')
 }
-
 </script>
 
 <template>
@@ -58,9 +41,7 @@ const onEndByBanns = () => {
             <FigthCompetitor v-for="(competitor, index) in competitors" :key="index" :competitor="competitor"/>
             <div class="timer-frame h-20 w-64
                 flex justify-center items-center text-4xl font-bold
-                mt-2 bg-gray-500 border-8
-                border-b-neutral-800 border-t-stone-500
-                border-l-neutral-600 border-r-neutral-600">
+                mt-2">
 
                 <Timer ref="timer" id="timer" @end="onTimerEnd" />
             </div>
@@ -69,7 +50,6 @@ const onEndByBanns = () => {
             <TimerControllPannel  :timer="timer" ref="timer_panel" @restart="onRestart"/>
             
             <FigthButtonsPannel id="panel_control" v-for="(competitor, index) in competitors" :key="index" :competitor="competitor" 
-                @update-points="onUpdatePoints"
                 @end-by-banns="onEndByBanns"/>
         </section>
     </main>
@@ -77,11 +57,17 @@ const onEndByBanns = () => {
 
 <style lang="css" scoped>
 .timer-frame {
+    background-color: #232323;
     z-index: 111;
     position: absolute;
+    
+    top: 50%;
     left: 50%;
     right: 50%;
+    transform: translate(-50%, -150%);
 
-    transform: translate(-50%, 0%);
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    border-image: linear-gradient(to right, rgb(239 68 68) 50%, black 50%) 100% 1;
 }
 </style>
