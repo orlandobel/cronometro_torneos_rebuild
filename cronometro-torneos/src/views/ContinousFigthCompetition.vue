@@ -5,6 +5,7 @@ import FigthCompetitor from '../components/Competitors/FigthCompetitor.vue'
 import FigthButtonsPannel from '../components/Buttons/FigthButtonsPannel.vue'
 import TimerControllPannel from '../components/Buttons/TimerControllPannel.vue';
 import Timer from '../components/Timer/Timer.vue'
+import PanelControll from '../components/Timer/PanelControll.vue'
 import { invoke } from '@tauri-apps/api/tauri';
 
 const competitors: Ref<FC[]> = ref([
@@ -20,6 +21,7 @@ const competitors: Ref<FC[]> = ref([
 
 const timer = ref<InstanceType<typeof Timer> | null>(null)
 const timer_panel = ref<any>(null)
+const panel_control = ref<any>(null)
 
 const onRestart = () => {
     competitors.value[0].banns = 0
@@ -33,10 +35,13 @@ const onEndByBanns = () => {
     invoke('play_bell')
     invoke('stop_sound')
 }
+
+const update_time = (time: number) => timer.value?.set_time(time)
 </script>
 
 <template>
     <main class="h-screen">
+        <PanelControll ref="panel_control" @update_time="update_time"/>
         <section id="competitors" class="w-screen flex h-5/6">
             <FigthCompetitor v-for="(competitor, index) in competitors" :key="index" :competitor="competitor"/>
             <div class="timer-frame h-20 w-64
@@ -47,7 +52,9 @@ const onEndByBanns = () => {
             </div>
         </section>
         <section id="control-panel" class="w-screen flex h-1/6">
-            <TimerControllPannel  :timer="timer" ref="timer_panel" @restart="onRestart"/>
+            <TimerControllPannel :timer="timer" ref="timer_panel" 
+                @restart="onRestart" 
+                @show_timer_panel="panel_control.change_display()"/>
             
             <FigthButtonsPannel id="panel_control" v-for="(competitor, index) in competitors" :key="index" :competitor="competitor" 
                 @end-by-banns="onEndByBanns"/>
@@ -58,7 +65,7 @@ const onEndByBanns = () => {
 <style lang="css" scoped>
 .timer-frame {
     background-color: #232323;
-    z-index: 111;
+    z-index: 11;
     position: absolute;
     
     top: 50%;

@@ -24,6 +24,15 @@ const changeTimer = () => {
 }
 
 const restart = () => {
+    animation.value = 'flash'
+    setTimeout(() => {
+        runingTimer.value = false
+        icon.value = 'bi-play'
+    }, 250)
+    setTimeout(() => {
+        animation.value = ''
+    }, 500)
+
     props.timer.restart()
     emit('restart')
 }
@@ -37,7 +46,8 @@ defineExpose({
 })
 
 const emit = defineEmits<{
-    'restart': []
+    'restart': [],
+    'show_timer_panel': []
 }>()
 </script>
 
@@ -67,7 +77,8 @@ const emit = defineEmits<{
                     name="md-restartalt"
                     scale="1.8"/>
             </button>
-            <button class="w-16 h-16 border border-neutral-200">
+            <button class="w-16 h-16 border border-neutral-200"
+                @click="emit('show_timer_panel')">
                 <v-icon
                     name="la-bars-solid"
                     scale="1.8"/>

@@ -4,9 +4,9 @@ import { invoke } from '@tauri-apps/api'
 
 const timer: Ref<any> = ref(null)
 
-const originTime = 15000
+let originTime = 60000
 const time = ref(originTime)
-const remain = ref(60000)
+const remain = ref(originTime)
 
 const start = () => timer.value?.start()
 const pause = () => timer.value?.abort()
@@ -15,6 +15,11 @@ const restart = () => {
     time.value = originTime
     timer.value?.restart()
     timer.value?.abort()
+}
+const set_time = (new_time: number) => {
+    remain.value = new_time
+    time.value = new_time
+    originTime = new_time
 }
 
 const playBeep = () => invoke('play_beep')
@@ -38,6 +43,7 @@ defineExpose({
     start,
     pause,
     restart,
+    set_time,
 })
 
 const emit = defineEmits<{
@@ -54,6 +60,6 @@ const emit = defineEmits<{
 
 <style lang="css" scoped>
 span {
-    z-index: 111;
+    z-index: 11;
 }
 </style>

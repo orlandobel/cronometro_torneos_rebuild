@@ -4,10 +4,9 @@
 
 <template>
     <RouterLink :to="{ name: 'home' }" id="btn-return">
-        <v-icon 
-            name="io-arrow-back-circle-sharp"
-            scale="2"
-        />
+        <v-icon
+            name="la-home-solid"
+            scale="1.5"/>
     </RouterLink>
 </template>
 
