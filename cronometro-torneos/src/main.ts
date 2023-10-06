@@ -8,9 +8,9 @@ import VueCountdown from '@chenfengyuan/vue-countdown'
 
 //icons
 import { OhVueIcon, addIcons } from "oh-vue-icons"
-import { IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid } from "oh-vue-icons/icons";
+import { BiPower, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid } from "oh-vue-icons/icons";
 
-addIcons(IoArrowBackCircleSharp, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid)
+addIcons(BiPower, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestartalt, LaHomeSolid, LaBarsSolid)
 
 createApp(App)
     .component('v-icon', OhVueIcon)
