@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "cronometro-torneos",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -27,14 +27,29 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.obelmontef.apallzac-tournament-counter",
+      "publisher": "Orlando Odiseo Belmotne Flores",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ]
+        "icons/app_icon.ico"
+      ],
+      "category": "Sports",
+      "macOS": {
+        "minimumSystemVersion": "10.13"
+      },
+      "windows": {
+        "allowDowngrades": true,
+        "certificateThumbprint": null,
+        "digestAlgorithm": "SHA-256",
+        "nsis": null,
+        "timestampUrl": null,
+        "tsp": false,
+        "webviewFixedRuntimePath": null,
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "downloadBootstrapper"
+        },
+        "wix": null 
+      }
     },
     "security": {
       "csp": null
