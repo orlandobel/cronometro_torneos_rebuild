@@ -4,7 +4,7 @@ import { invoke } from '@tauri-apps/api'
 
 const timer: Ref<any> = ref(null)
 
-let originTime = 60000
+let originTime = 90000
 const time = ref(originTime)
 const remain = ref(originTime)
 
@@ -17,6 +17,7 @@ const restart = () => {
     timer.value?.abort()
 }
 const set_time = (new_time: number) => {
+    console.log(new_time)
     remain.value = new_time
     time.value = new_time
     originTime = new_time
@@ -26,10 +27,14 @@ const playBeep = () => invoke('play_beep')
 const playBell = () => invoke('play_bell')
 
 const listenTimer = (event: any) => {
-    const ms = event.seconds * 1000
+    const minutes = event.minutes
+    const min_to_sec = minutes * 60
+    
+    const ms = (event.seconds + min_to_sec) * 1000
+    
     remain.value = ms
 
-    if(ms > 0 && ms <= 10000) playBeep()
+    if(ms > 0 && ms <= 10) playBeep()
     else if(ms === 0) {
         playBell()
         emit('end')
