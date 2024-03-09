@@ -10,11 +10,11 @@ import { invoke } from '@tauri-apps/api/tauri';
 
 const competitors: Ref<FC[]> = ref([
     {
-        color: 'black',
+        color: 'red',
         banns: 0,
     },
     {
-        color: 'red',
+        color: 'black',
         banns: 0,
     }
 ])
@@ -44,7 +44,7 @@ const update_time = (time: number) => timer.value?.set_time(time)
         <PanelControll ref="panel_control" @update_time="update_time"/>
         <section id="competitors" class="w-screen flex h-5/6">
             <FigthCompetitor v-for="(competitor, index) in competitors" :key="index" :competitor="competitor"/>
-            <div class="timer-frame h-20 w-64
+            <div class="timer-frame h-32 w-96
                 flex justify-center items-center text-4xl font-bold
                 mt-2">
 
@@ -64,17 +64,19 @@ const update_time = (time: number) => timer.value?.set_time(time)
 
 <style lang="css" scoped>
 .timer-frame {
-    background-color: #232323;
     z-index: 11;
     position: absolute;
+
+    font-size: 10svh;
     
     top: 50%;
     left: 50%;
     right: 50%;
     transform: translate(-50%, -150%);
 
-    border-top: 3px solid;
-    border-bottom: 3px solid;
-    border-image: linear-gradient(to right, rgb(239 68 68) 50%, black 50%) 100% 1;
+    border: 3px solid #0000;
+    background:
+        linear-gradient(#232323, #232323) padding-box,
+        linear-gradient(to right, #ef4444 50%, #000 50%) border-box;
 }
 </style>

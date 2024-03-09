@@ -13,7 +13,7 @@ const classnames = computed(() =>
 </script>
 
 <template>
-    <div class="h-full w-1/2 competitor-section flex justify-center grid content-center" 
+    <div class="h-full w-1/2 competitor-section justify-center grid content-center" 
         :class="classnames">
         {{ competitor.points }}
         <footer class="w-full flex gap-64 justify-center">
@@ -48,7 +48,7 @@ footer {
 
 
 .border-red {
-    border: 1px solid rgb(239 68 68);
+    border: 3px solid rgb(239 68 68);
 }
 
 .border-black {
