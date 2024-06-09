@@ -14,6 +14,6 @@ addIcons(BiPower, IoClose, HiSolidPlus, HiSolidMinus, BiPlay, BiPause, MdRestart
 
 createApp(App)
     .component('v-icon', OhVueIcon)
-    .component(VueCountdown.name, VueCountdown)
+    .component(VueCountdown.name!, VueCountdown)
     .use(router)
     .mount("#app")
