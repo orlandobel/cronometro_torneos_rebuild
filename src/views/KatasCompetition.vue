@@ -34,7 +34,6 @@ const updateCompetitors = () => {
 const get_winners = () => competitors.value.sort((a:KataCompetitor, b:KataCompetitor) => b.total! - a.total!)
 
 const clearFields = () => competitors.value.forEach(competitor => {
-    console.log('cleanin')
     competitor.name = undefined
     competitor.cal1 = 0
     competitor.cal2 = 0

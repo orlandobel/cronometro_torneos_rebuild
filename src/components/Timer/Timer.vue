@@ -17,7 +17,6 @@ const restart = () => {
     timer.value?.abort()
 }
 const set_time = (new_time: number) => {
-    console.log(new_time)
     remain.value = new_time
     time.value = new_time
     originTime = new_time
@@ -34,12 +33,11 @@ const listenTimer = (event: any) => {
     
     remain.value = ms
 
-    if(ms > 0 && ms <= 10) playBeep()
+    if(ms > 0 && ms <= 10000)playBeep()
     else if(ms === 0) {
         playBell()
         emit('end')
     }
-    invoke('stop_sound')
 }
 
 const onPause = () => time.value = remain.value
