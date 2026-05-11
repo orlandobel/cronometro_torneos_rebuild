@@ -1,10 +1,10 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink};
+use rodio::{OutputStream, OutputStreamHandle, Sink, source::SineWave, Source};
 use serde_json::json;
 use std::path::PathBuf;
-use std::{io::Cursor, sync::Mutex};
+use std::{sync::Mutex, time::Duration};
 use tauri::{Manager, State, Wry};
 use tauri_plugin_store::{with_store, StoreCollection};
 
@@ -16,25 +16,23 @@ struct Volume(Mutex<f32>);
 
 #[tauri::command]
 async fn play_beep(main_speaker: State<'_, MainSpeaker>, main_stream: State<'_, MainStream>, volume_state: State<'_, Volume>,) -> Result<(), ()> {
-    let file = Cursor::new(include_bytes!("../sounds/beep.mp3"));
-
-    let source = Decoder::new(file).unwrap();
-
     let mut main_speaker = main_speaker.0.lock().unwrap();
+
+    if let Some(sink) = main_speaker.take() {
+        sink.stop();
+    }
 
     let volume = *volume_state.0.lock().unwrap();
 
     let stream_handle = main_stream.0.clone();
 
-    if main_speaker.is_some() {
-        return Ok(());
-    }
-
     let sink = Sink::try_new(&stream_handle).unwrap();
 
     sink.set_volume(volume);
 
-    sink.append(source);
+    sink.append(SineWave::new(880.0)
+        .amplify(0.3)
+        .take_duration(Duration::from_millis(150)));
 
     *main_speaker = Some(sink);
 
@@ -43,25 +41,27 @@ async fn play_beep(main_speaker: State<'_, MainSpeaker>, main_stream: State<'_, 
 
 #[tauri::command]
 async fn play_bell(main_speaker: State<'_, MainSpeaker>, main_stream: State<'_, MainStream>, volume_state: State<'_, Volume>,) -> Result<(), ()> {
-    let file = Cursor::new(include_bytes!("../sounds/box_bell.mp3"));
-
-    let source = Decoder::new(file).unwrap();
-
     let mut main_speaker = main_speaker.0.lock().unwrap();
+
+    if let Some(sink) = main_speaker.take() {
+        sink.stop();
+    }
 
     let volume = *volume_state.0.lock().unwrap();
 
     let stream_handle = main_stream.0.clone();
 
-    if main_speaker.is_some() {
-        return Ok(());
-    }
-
     let sink = Sink::try_new(&stream_handle).unwrap();
 
     sink.set_volume(volume);
 
-    sink.append(source);
+    sink.append(SineWave::new(660.0)
+        .amplify(0.4)
+        .take_duration(Duration::from_millis(500)));
+
+    sink.append(SineWave::new(440.0)
+        .amplify(0.4)
+        .take_duration(Duration::from_millis(500)));
 
     *main_speaker = Some(sink);
 

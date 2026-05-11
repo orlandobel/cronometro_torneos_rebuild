@@ -30,10 +30,12 @@ const listenTimer = (event: any) => {
     remain.value = ms
 
     if(ms > 0 && ms <= 10000) playBeep()
-    else if(ms === 0) {
-        playBell()
-        emit('end')
-    }
+}
+
+const onEnd = () => {
+    remain.value = 0
+    playBell()
+    emit('end')
 }
 
 const onPause = () => {
@@ -55,7 +57,7 @@ const emit = defineEmits<{
 
 <template>
     <vue-countdown :time="time" v-slot="{ minutes, seconds}" :auto-start="false" ref="timer"
-        @progress="listenTimer" @abort="onPause">
+        @progress="listenTimer" @abort="onPause" @end="onEnd">
         {{ minutes.toString().padStart(2, "0") }}:{{ seconds.toString().padStart(2, "0") }}
     </vue-countdown>
 </template>
