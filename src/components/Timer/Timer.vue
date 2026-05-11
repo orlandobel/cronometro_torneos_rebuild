@@ -13,8 +13,8 @@ const pause = () => timer.value?.abort()
 const restart = () => {
     remain.value = originTime
     time.value = originTime
-    timer.value?.restart()
     timer.value?.abort()
+    invoke('stop_sound')
 }
 const set_time = (new_time: number) => {
     remain.value = new_time
@@ -26,7 +26,7 @@ const playBeep = () => invoke('play_beep')
 const playBell = () => invoke('play_bell')
 
 const listenTimer = (event: any) => {
-    const ms = event.seconds * 1000
+    const ms = event.totalMilliseconds
     remain.value = ms
 
     if(ms > 0 && ms <= 10000) playBeep()
@@ -34,10 +34,12 @@ const listenTimer = (event: any) => {
         playBell()
         emit('end')
     }
-    invoke('stop_sound')
 }
 
-const onPause = () => time.value = remain.value
+const onPause = () => {
+    time.value = remain.value
+    invoke('stop_sound')
+}
 
 defineExpose({
     start,
