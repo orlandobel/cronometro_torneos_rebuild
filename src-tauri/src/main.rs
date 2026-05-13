@@ -1,8 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use rodio::{OutputStream, OutputStreamHandle, Sink, source::SineWave, Source};
+use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink, source::SineWave, Source};
 use serde_json::json;
+use std::io::Cursor;
 use std::path::PathBuf;
 use std::{sync::Mutex, time::Duration};
 use tauri::{Manager, State, Wry};
@@ -55,13 +56,10 @@ async fn play_bell(main_speaker: State<'_, MainSpeaker>, main_stream: State<'_, 
 
     sink.set_volume(volume);
 
-    sink.append(SineWave::new(660.0)
-        .amplify(0.4)
-        .take_duration(Duration::from_millis(500)));
-
-    sink.append(SineWave::new(440.0)
-        .amplify(0.4)
-        .take_duration(Duration::from_millis(500)));
+    let bell_bytes = include_bytes!("../sounds/box_bell.wav");
+    let cursor = Cursor::new(bell_bytes.to_vec());
+    let source = Decoder::new(cursor).unwrap();
+    sink.append(source.convert_samples::<f32>());
 
     *main_speaker = Some(sink);
 
