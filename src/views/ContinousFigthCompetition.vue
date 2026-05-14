@@ -10,11 +10,11 @@ import { invoke } from '@tauri-apps/api/tauri';
 
 const competitors: Ref<FC[]> = ref([
     {
-        color: 'black',
+        color: 'red',
         banns: 0,
     },
     {
-        color: 'red',
+        color: 'black',
         banns: 0,
     }
 ])
